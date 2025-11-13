@@ -6,7 +6,7 @@ if not vim.loop.fs_stat(lazypath) then
 		"clone",
 		"--filter=blob:none",
 		-- 使用镜像地址
-		"https://mirror.ghproxy.com/https://github.com/folke/lazy.nvim.git",
+		--"https://mirror.ghproxy.com/https://github.com/folke/lazy.nvim.git",
 		"--branch=stable",
 		lazypath,
 	})
@@ -18,7 +18,7 @@ require("lazy").setup("plugins", {
 		-- 使用镜像 URL 前缀
 		-- url_format = "https://mirror.ghproxy.com/https://github.com/%s.git",
 		-- 或使用 GitClone
-		url_format = "https://gitclone.com/github.com/%s.git",
+		--url_format = "https://gitclone.com/github.com/%s.git",
 	},
 	performance = {
 		reset_packpath = true,

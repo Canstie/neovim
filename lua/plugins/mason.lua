@@ -22,6 +22,7 @@ return {
 				-- 完全禁用 LSP 的格式化功能
 				if client.server_capabilities then
 					client.server_capabilities.documentFormattingProvider = false
+
 					client.server_capabilities.documentRangeFormattingProvider = false
 				end
 			end
@@ -48,6 +49,7 @@ return {
 			["typescript-language-server"] = {},
 			["emmet-ls"] = {},
 			gopls = {},
+			["rust-analyzer"] = {},
 		}
 		for server, config in pairs(servers) do
 			setup(server, config)
@@ -58,13 +60,16 @@ return {
 		})
 		local function is_supported_filetype()
 			local filetype = vim.bo.filetype
+
 			local supported_filetype = {
+
 				lua = "lua-language-server",
 				python = "pyright",
 				html = "html-lsp",
 				css = "css-lsp",
 				js = "typescript-language-server",
 				go = "gopls",
+				rust = "rust-analyzer",
 			}
 			return supported_filetype[filetype] ~= nil
 		end
