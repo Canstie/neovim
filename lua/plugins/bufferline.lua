@@ -1,18 +1,9 @@
 return {
 	"akinsho/bufferline.nvim",
-	dependencies = {
-		"nvim-tree/nvim-web-devicons",
-	},
+	dependencies = { "nvim-tree/nvim-web-devicons" },
 	opts = {
 		options = {
-			offsets = {
-				{
-					filetype = "NvimTree",
-					text = "File Exploer",
-					text_align = "left",
-					separator = true,
-				},
-			},
+			offsets = { { filetype = "NvimTree", text = "File Exploer", text_align = "left", separator = true } },
 			separator_style = "slant",
 			diagnostics = "nvim_lsp",
 			diagnostics_indicator = function(_, _, diagnostics_dict, _)
@@ -32,7 +23,6 @@ return {
 			end,
 		},
 	},
-
 	keys = {
 		{ "<Tab>", ":BufferLineCyclePrev<CR>", silent = true },
 		{ "<S-Tab>", ":BufferLineCycleNext<CR>", silent = true },

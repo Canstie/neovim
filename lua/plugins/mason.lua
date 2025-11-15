@@ -50,6 +50,7 @@ return {
 			["emmet-ls"] = {},
 			gopls = {},
 			["rust-analyzer"] = {},
+			clangd = {},
 		}
 		for server, config in pairs(servers) do
 			setup(server, config)

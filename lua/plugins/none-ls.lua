@@ -22,6 +22,7 @@ return {
 		install("goimports") --  Go 格式化工具
 		install("black")
 		install("prettierd") -- JavaScript/TypeScript 格式化工具
+		install("clang-format")
 		-- ####################################
 
 		local null_ls = require("null-ls")
@@ -33,6 +34,7 @@ return {
 				null_ls.builtins.formatting.prettierd,
 				-- 【新增】Go 格式化
 				null_ls.builtins.formatting.goimports,
+				null_ls.builtins.formatting.clang_format,
 			},
 		})
 	end,
