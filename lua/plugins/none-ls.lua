@@ -1,52 +1,46 @@
 -- 放在 lua/plugins/none-ls.lua
 return {
-	"nvimtools/none-ls.nvim",
-	dependencies = {
-		"nvim-lua/plenary.nvim",
-		"mason-org/mason.nvim", -- 需要 mason 来安装工具
-	},
-	event = "VeryLazy",
-	config = function()
-		local registry = require("mason-registry")
+    "nvimtools/none-ls.nvim",
+    dependencies = {
+        "nvim-lua/plenary.nvim",
+        "mason-org/mason.nvim",
+        -- 【新增】专门用来自动安装工具的插件，比手写 function 更稳
+        "whoissethdaniel/mason-tool-installer.nvim",
+    },
+    event = "VeryLazy",
+    config = function()
+        -- 1. 先配置 mason-tool-installer 负责安装
+        require("mason-tool-installer").setup({
+            ensure_installed = {
+                "stylua",
+                "goimports", -- 这里声明，它会自动帮你装
+                "black",
+                "prettierd",
+                "clang-format",
+            },
+            auto_update = true,
+            run_on_start = true,
+        })
 
-		-- 自动安装 none-ls 需要的工具
-		local function install(name)
-			local success, package = pcall(registry.get_package, name)
-			if success and not package:is_installed() then
-				package:install()
-			end
-		end
-
-		-- ######### 你需要安装的工具 #########
-		install("stylua") --  Lua 格式化
-		install("goimports") --  Go 格式化工具
-		install("black")
-		install("prettierd") -- JavaScript/TypeScript 格式化工具
-		install("clang-format")
-		-- ####################################
-
-		local null_ls = require("null-ls")
-		null_ls.setup({
-			sources = {
-				-- Lua
-				null_ls.builtins.formatting.stylua,
-				null_ls.builtins.formatting.black,
-				null_ls.builtins.formatting.prettierd,
-				-- 【新增】Go 格式化
-				null_ls.builtins.formatting.goimports,
-				null_ls.builtins.formatting.clang_format,
-			},
-		})
-	end,
-	keys = {
-		{
-			"<leader>lf",
-			function()
-				vim.lsp.buf.format({
-					async = true,
-				})
-			end,
-			desc = "Format buffer (null-ls)",
-		},
-	},
+        -- 2. 再配置 null-ls
+        local null_ls = require("null-ls")
+        null_ls.setup({
+            sources = {
+                null_ls.builtins.formatting.stylua,
+                null_ls.builtins.formatting.black,
+                null_ls.builtins.formatting.prettierd,
+                null_ls.builtins.formatting.goimports,
+                null_ls.builtins.formatting.clang_format,
+            },
+        })
+    end,
+    keys = {
+        {
+            "<leader>lf",
+            function()
+                vim.lsp.buf.format({ async = true })
+            end,
+            desc = "Format buffer (null-ls)",
+        },
+    },
 }
